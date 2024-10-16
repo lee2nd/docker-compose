@@ -1,93 +1,92 @@
 version: '3.3'  # 可以根據需要選擇不同的版本
 
 services:
-  l4a_etl:
+  l4a_etl_sup:
     image: at_image  # 映像名稱
-    container_name: l4a_etl  # 容器名稱
+    container_name: l4a_etl_sup  # 容器名稱
     restart: always  # 自動重啟策略
     volumes:
       - /etc/localtime:/etc/localtime:ro  # 掛載 /etc/localtime
-      - /home/ivan/Program/AT_CODE:/code  # 掛載 AT_CODE 目錄
-      - /home/ivan/Program/AT_DATA:/data  # 掛載 AT_DATA 目錄
+      - /home/ivan/Program:/app
     devices:
       - /dev/fuse  # 使用 FUSE 設備
     cap_add:
       - SYS_ADMIN  # 增加 SYS_ADMIN 權限
     privileged: true  # 以特權模式運行
+    working_dir: /app/AT_CODE_SUP  # 設定工作目錄到 AT_CODE
     command: python l4a_etl.py  # 執行的命令
 
-  l6b_fs_eb16c_etl:
-    user: "${USER_ID}:${GROUP_ID}"
+  l6b_fs_eb16c_etl_sup:
     image: at_image  # 映像名稱
-    container_name: l6b_fs_eb16c_etl  # 容器名稱
+    container_name: l6b_fs_eb16c_etl_sup  # 容器名稱
     restart: always  # 自動重啟策略
     volumes:
       - /etc/localtime:/etc/localtime:ro  # 掛載 /etc/localtime
-      - /home/ivan/Program/AT_CODE:/code  # 掛載 AT_CODE 目錄
-      - /home/ivan/Program/AT_DATA:/data  # 掛載 AT_DATA 目錄
+      - /home/ivan/Program:/app
     devices:
       - /dev/fuse  # 使用 FUSE 設備
     cap_add:
       - SYS_ADMIN  # 增加 SYS_ADMIN 權限
     privileged: true  # 以特權模式運行
+    working_dir: /app/AT_CODE_SUP  # 設定工作目錄到 AT_CODE
     command: python l6b_fs_eb16c_etl.py  # 執行的命令
 
-  l6b_fs_eb17c_etl:
+  l6b_fs_eb17c_etl_sup:
     image: at_image  # 映像名稱
-    container_name: l6b_fs_eb17c_etl  # 容器名稱
+    container_name: l6b_fs_eb17c_etl_sup  # 容器名稱
     restart: always  # 自動重啟策略
     volumes:
       - /etc/localtime:/etc/localtime:ro  # 掛載 /etc/localtime
-      - /home/ivan/Program/AT_CODE:/code  # 掛載 AT_CODE 目錄
-      - /home/ivan/Program/AT_DATA:/data  # 掛載 AT_DATA 目錄
+      - /home/ivan/Program:/app
     devices:
       - /dev/fuse  # 使用 FUSE 設備
     cap_add:
       - SYS_ADMIN  # 增加 SYS_ADMIN 權限
     privileged: true  # 以特權模式運行
+    working_dir: /app/AT_CODE_SUP  # 設定工作目錄到 AT_CODE
     command: python l6b_fs_eb17c_etl.py  # 執行的命令
 
-  l6b_sw_at2_etl:
+  l6b_sw_at2_etl_sup:
     image: at_image  # 映像名稱
-    container_name: l6b_sw_at2_etl  # 容器名稱
+    container_name: l6b_sw_at2_etl_sup  # 容器名稱
     restart: always  # 自動重啟策略
     volumes:
       - /etc/localtime:/etc/localtime:ro  # 掛載 /etc/localtime
-      - /home/ivan/Program/AT_CODE:/code  # 掛載 AT_CODE 目錄
-      - /home/ivan/Program/AT_DATA:/data  # 掛載 AT_DATA 目錄
+      - /home/ivan/Program:/app
     devices:
       - /dev/fuse  # 使用 FUSE 設備
     cap_add:
       - SYS_ADMIN  # 增加 SYS_ADMIN 權限
     privileged: true  # 以特權模式運行
+    working_dir: /app/AT_CODE_SUP  # 設定工作目錄到 AT_CODE
     command: python l6b_sw_at2_etl.py  # 執行的命令
 
-  l6b_sw_tc01_etl:
+  l6b_sw_tc01_etl_sup:
     image: at_image  # 映像名稱
-    container_name: l6b_sw_tc01_etl  # 容器名稱
+    container_name: l6b_sw_tc01_etl_sup  # 容器名稱
     restart: always  # 自動重啟策略
     volumes:
       - /etc/localtime:/etc/localtime:ro  # 掛載 /etc/localtime
-      - /home/ivan/Program/AT_CODE:/code  # 掛載 AT_CODE 目錄
-      - /home/ivan/Program/AT_DATA:/data  # 掛載 AT_DATA 目錄
+      - /home/ivan/Program:/app
     devices:
       - /dev/fuse  # 使用 FUSE 設備
     cap_add:
       - SYS_ADMIN  # 增加 SYS_ADMIN 權限
     privileged: true  # 以特權模式運行
+    working_dir: /app/AT_CODE_SUP  # 設定工作目錄到 AT_CODE
     command: python l6b_sw_tc01_etl.py  # 執行的命令
 
-  l6b_sw_tc02_etl:
+  l6b_sw_tc02_etl_sup:
     image: at_image  # 映像名稱
-    container_name: l6b_sw_tc02_etl  # 容器名稱
+    container_name: l6b_sw_tc02_etl_sup  # 容器名稱
     restart: always  # 自動重啟策略
     volumes:
       - /etc/localtime:/etc/localtime:ro  # 掛載 /etc/localtime
-      - /home/ivan/Program/AT_CODE:/code  # 掛載 AT_CODE 目錄
-      - /home/ivan/Program/AT_DATA:/data  # 掛載 AT_DATA 目錄
+      - /home/ivan/Program:/app
     devices:
       - /dev/fuse  # 使用 FUSE 設備
     cap_add:
       - SYS_ADMIN  # 增加 SYS_ADMIN 權限
     privileged: true  # 以特權模式運行
+    working_dir: /app/AT_CODE_SUP  # 設定工作目錄到 AT_CODE
     command: python l6b_sw_tc02_etl.py  # 執行的命令
