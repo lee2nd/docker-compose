@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 定義需要停止和刪除的容器名稱
-containers=("l4a_etl" "l6b_fs_eb16c_etl" "l6b_fs_eb17c_etl" "l6b_sw_at2_etl" "l6b_sw_tc01_etl" "l6b_sw_tc02_etl")
+containers=("l4a_etl_sup" "l6b_fs_eb16c_etl_sup" "l6b_fs_eb17c_etl_sup" "l6b_sw_at2_etl_sup" "l6b_sw_tc01_etl_sup" "l6b_sw_tc02_etl_sup")
 
 # 停止並刪除現有容器，如果存在
 for container in "${containers[@]}"; do
