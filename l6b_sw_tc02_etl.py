@@ -10,6 +10,7 @@ import pickle
 import gridfs
 import gc
 import trigger_setting
+import logging
 
 
 # 取得 CONFIG 資訊
@@ -81,7 +82,9 @@ def process_charge_file(file_path, sheet_id):
 
 
 def job():
-        
+    
+    logging.basicConfig(filename=f'log/l6b_sw_tc02_sup_{datetime.today().strftime("%Y_%m_%d_%H_%M")}.log', filemode='w+', format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+    
     for file in os.listdir(f"../AT_DATA/l6b_sw_tc02/file_log"):
         
         file_log_path = os.path.join(f"../AT_DATA/l6b_sw_tc02/file_log", file)
@@ -113,6 +116,7 @@ def job():
                 if time_difference.total_seconds()/60 <= trigger_setting.time_difference:
                     
                     print(log_time)
+                    logging.info(log_time)
                     
                     # table schema
                     lm_time = datetime.strptime(filelog[0], "%Y/%m/%d %H:%M:%S.%f").strftime("%Y/%m/%d %H:%M:%S")
@@ -120,6 +124,7 @@ def job():
                     op_id = filelog[2]
                     recipe_id = filelog[3]
                     lot_id = filelog[4]
+                    if filelog[7][0] != 'E': continue
                     chip_id = filelog[7]
                     if "_" in chip_id: chip_id = chip_id.split("_")[0]
                     sheet_id = chip_id[:-5] + "P" + chip_id[-4:-2]
@@ -169,6 +174,7 @@ def job():
                         
                         # 處理路徑檢視
                         print(file_path)
+                        logging.info(file_path)
                         
                         try:
                             f = open(f"../AT_DATA/l6b_sw_tc02/{file_path}", 'r')
@@ -873,31 +879,32 @@ def job():
                         
                         # 處理路徑檢視
                         print(file_path)
+                        logging.info(file_path)
 
-                        charge_2d_r, charge_2d_g, charge_2d_b = process_charge_file(f"../AT_DATA/l6b_sw_tc02/{file_path}", sheet_id)
-                        charge_2d_r = fs_charge2d.put(Binary(pickle.dumps(charge_2d_r, protocol=5)))
-                        charge_2d_g = fs_charge2d.put(Binary(pickle.dumps(charge_2d_g, protocol=5)))
-                        charge_2d_b = fs_charge2d.put(Binary(pickle.dumps(charge_2d_b, protocol=5)))
-                        
-                        table_schema = {'lm_time': lm_time,
-                                        'eqp_id': eqp_id,
-                                        'op_id': op_id,
-                                        'recipe_id': recipe_id,
-                                        'lot_id': lot_id,
-                                        'sheet_id': sheet_id,
-                                        'chip_id': chip_id,
-                                        'chip_pos': chip_pos,
-                                        'ins_cnt': ins_cnt,
-                                        'step': step,
-                                        'charge_type': charge_type,
-                                        '2d_r_object_id': charge_2d_r,                                        
-                                        '2d_g_object_id': charge_2d_g,
-                                        '2d_b_object_id': charge_2d_b,
-                                        'file_path': file_path
-                                        }
-
-                        
                         try:
+
+                            charge_2d_r, charge_2d_g, charge_2d_b = process_charge_file(f"../AT_DATA/l6b_sw_tc02/{file_path}", sheet_id)
+                            charge_2d_r = fs_charge2d.put(Binary(pickle.dumps(charge_2d_r, protocol=5)))
+                            charge_2d_g = fs_charge2d.put(Binary(pickle.dumps(charge_2d_g, protocol=5)))
+                            charge_2d_b = fs_charge2d.put(Binary(pickle.dumps(charge_2d_b, protocol=5)))
+                            
+                            table_schema = {'lm_time': lm_time,
+                                            'eqp_id': eqp_id,
+                                            'op_id': op_id,
+                                            'recipe_id': recipe_id,
+                                            'lot_id': lot_id,
+                                            'sheet_id': sheet_id,
+                                            'chip_id': chip_id,
+                                            'chip_pos': chip_pos,
+                                            'ins_cnt': ins_cnt,
+                                            'step': step,
+                                            'charge_type': charge_type,
+                                            '2d_r_object_id': charge_2d_r,                                        
+                                            '2d_g_object_id': charge_2d_g,
+                                            '2d_b_object_id': charge_2d_b,
+                                            'file_path': file_path
+                                            }
+
                             collection_charge2d.insert_one(table_schema)
                             del charge_2d_r
                             del charge_2d_g
@@ -913,7 +920,7 @@ def job():
                         continue
     
     print("The current date and time is", datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
-    client.close()
+    logging.info("==========Done==========")
     print("==========Done==========")
 
 
